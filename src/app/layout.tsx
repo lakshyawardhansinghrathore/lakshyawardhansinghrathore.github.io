@@ -5,6 +5,8 @@ import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { CommandPaletteProvider } from "@/components/command-palette";
+import { ScrollProgress } from "@/components/scroll-progress";
+import { CustomCursor } from "@/components/custom-cursor";
 import { site } from "@/content/site";
 
 /* Two typefaces for identity + mono strictly for terminal/code surfaces */
@@ -78,6 +80,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           Skip to content
         </a>
+
+        <ScrollProgress />
+        <CustomCursor />
 
         <CommandPaletteProvider>
           <Nav />

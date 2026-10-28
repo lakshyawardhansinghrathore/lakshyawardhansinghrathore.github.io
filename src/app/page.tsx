@@ -9,6 +9,7 @@ import { Certifications } from "@/components/sections/certifications";
 import { Blog } from "@/components/sections/blog";
 import { Testimonials } from "@/components/sections/testimonials";
 import { Contact } from "@/components/sections/contact";
+import { ScrollVelocityRibbon } from "@/components/scroll-velocity-ribbon";
 
 /* Re-render hourly so the GitHub/LeetCode/Codeforces stats stay fresh */
 export const revalidate = 3600;
@@ -17,6 +18,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <ScrollVelocityRibbon />
       <About />
       <Terminal />
       <Skills />
