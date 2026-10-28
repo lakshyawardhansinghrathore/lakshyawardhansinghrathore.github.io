@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useCommandPalette } from "@/components/command-palette";
 import { cn } from "@/lib/utils";
 
-/** Links shown in the top bar (the command palette covers every section). */
+/** Links shown in the top bar */
 const NAV_IDS = ["about", "projects", "experience", "blog", "contact"] as const;
 
 export function Nav() {
@@ -27,7 +27,6 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* Scroll-spy: highlight the nav link whose section owns the viewport middle */
   useEffect(() => {
     if (!isHome) return;
     const observer = new IntersectionObserver(
@@ -50,9 +49,9 @@ export function Nav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-40 transition-all duration-300",
+        "fixed inset-x-0 top-0 z-40 transition-all duration-500",
         scrolled
-          ? "border-b border-border bg-background/80 backdrop-blur-xl"
+          ? "border-b border-border/60 bg-background/80 shadow-sm shadow-black/5 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent",
       )}
     >
@@ -63,8 +62,10 @@ export function Nav() {
           className="group flex items-center gap-2.5"
           onClick={() => setMenuOpen(false)}
         >
-          <span className="flex size-8 items-center justify-center rounded-lg border border-accent-border/60 bg-accent-soft font-display text-sm font-bold text-accent">
-            {site.initials}
+          {/* Gradient initials badge */}
+          <span className="relative flex size-8 items-center justify-center overflow-hidden rounded-lg font-display text-sm font-extrabold text-white">
+            <span className="absolute inset-0 bg-gradient-to-br from-accent to-cyan" aria-hidden />
+            <span className="relative">{site.initials}</span>
           </span>
           <span className="hidden font-mono text-sm text-muted-foreground transition-colors group-hover:text-foreground sm:block">
             ~/{site.name.split(" ")[0].toLowerCase()}
@@ -77,18 +78,27 @@ export function Nav() {
           {NAV_IDS.map((id) => {
             const s = sections.find((x) => x.id === id);
             if (!s) return null;
+            const isActive = active === id;
             return (
               <a
                 key={id}
                 href={hrefFor(id)}
                 className={cn(
-                  "rounded-lg px-3 py-2 text-sm transition-colors",
-                  active === id
-                    ? "text-accent"
+                  "relative rounded-lg px-3 py-2 text-sm transition-all duration-200",
+                  isActive
+                    ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                <span className="font-mono text-xs text-accent/70">{s.index}.</span> {s.label}
+                <span className="font-mono text-xs text-accent/70">{s.index}.</span>{" "}
+                {s.label}
+                {/* Active indicator */}
+                {isActive && (
+                  <span
+                    aria-hidden
+                    className="absolute bottom-0 left-1/2 h-[2px] w-4 -translate-x-1/2 rounded-full bg-gradient-to-r from-accent to-cyan"
+                  />
+                )}
               </a>
             );
           })}
@@ -99,7 +109,7 @@ export function Nav() {
           <button
             type="button"
             onClick={() => setPaletteOpen(true)}
-            className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-border bg-card/60 px-2.5 text-muted-foreground transition-colors hover:border-accent-border hover:text-foreground"
+            className="flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-border bg-card/60 px-2.5 text-muted-foreground transition-all duration-200 hover:border-accent-border/60 hover:bg-accent-soft/50 hover:text-accent"
             aria-label="Open command palette"
           >
             <Search className="size-4" aria-hidden />
@@ -109,10 +119,9 @@ export function Nav() {
             </kbd>
           </button>
           <ThemeToggle />
-          {/* Mobile menu button */}
           <button
             type="button"
-            className="flex size-9 cursor-pointer items-center justify-center rounded-lg border border-border text-muted-foreground md:hidden"
+            className="flex size-9 cursor-pointer items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-accent-border/60 hover:text-accent md:hidden"
             onClick={() => setMenuOpen((v) => !v)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
@@ -134,9 +143,13 @@ export function Nav() {
                   key={id}
                   href={hrefFor(id)}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  className={cn(
+                    "rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-accent-soft hover:text-accent",
+                    active === id ? "text-accent" : "text-muted-foreground",
+                  )}
                 >
-                  <span className="font-mono text-xs text-accent/70">{s.index}.</span> {s.label}
+                  <span className="font-mono text-xs text-accent/70">{s.index}.</span>{" "}
+                  {s.label}
                 </a>
               );
             })}
