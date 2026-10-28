@@ -5,6 +5,7 @@ import { GraduationCap, MapPin, Sparkles, Cpu, BookOpen, Code2, Star } from "luc
 import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
 import { Badge } from "@/components/ui/badge";
+import { SpotlightCard } from "@/components/spotlight-card";
 import { site } from "@/content/site";
 import { currentlyLearning } from "@/content/skills";
 
@@ -46,7 +47,7 @@ function AnimatedCounter({ to, suffix = "", decimals = 0 }: { to: number; suffix
 }
 
 /**
- * ABOUT — bento grid layout (award-winning style).
+ * ABOUT — bento grid layout with 3D Spotlight Cards.
  */
 export function About() {
   return (
@@ -58,12 +59,12 @@ export function About() {
           description="The short version — for the long version, open the terminal below."
         />
 
-        {/* Bento grid */}
+        {/* Bento grid with Spotlight Cards */}
         <div className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
           {/* ── Bio card — spans 2 cols ── */}
           <Reveal className="sm:col-span-2">
-            <div className="group h-full rounded-2xl border border-border bg-card p-7 transition-all duration-300 hover:border-accent-border/60 hover:shadow-xl hover:shadow-accent/5">
+            <SpotlightCard className="h-full p-7 transition-all duration-300 hover:shadow-2xl hover:shadow-accent/5">
               <div className="mb-5 flex items-center gap-4">
                 <div className="relative flex size-16 items-center justify-center rounded-2xl border border-accent-border/60 bg-accent-soft font-display text-xl font-extrabold text-accent">
                   {site.initials}
@@ -105,13 +106,13 @@ export function About() {
                 <Badge variant="outline">Full-Stack Dev</Badge>
                 <Badge variant="outline">Open Source</Badge>
               </div>
-            </div>
+            </SpotlightCard>
           </Reveal>
 
           {/* ── CGPA stat card ── */}
-          <Reveal delay={0.05}>
-            <div className="relative h-full overflow-hidden rounded-2xl border border-accent-border/50 bg-accent-soft p-7 transition-all duration-300 hover:border-accent/60 hover:shadow-xl hover:shadow-accent/10">
-              <div className="absolute -right-6 -top-6 size-28 rounded-full bg-accent/10 blur-2xl" aria-hidden />
+          <Reveal delay={0.06}>
+            <SpotlightCard className="relative h-full bg-accent-soft/80 border-accent-border/60 p-7 transition-all duration-300 hover:shadow-2xl hover:shadow-accent/15">
+              <div className="absolute -right-6 -top-6 size-28 rounded-full bg-accent/15 blur-2xl" aria-hidden />
               <GraduationCap className="mb-3 size-7 text-accent" aria-hidden />
               <p className="text-gradient font-display text-5xl font-extrabold">
                 <AnimatedCounter to={9.02} suffix="" decimals={2} />
@@ -123,12 +124,12 @@ export function About() {
               <p className="text-xs text-muted-foreground">
                 {site.education.school} · {site.education.period}
               </p>
-            </div>
+            </SpotlightCard>
           </Reveal>
 
           {/* ── Currently learning marquee card ── */}
           <Reveal delay={0.08}>
-            <div className="h-full overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-accent-border/60 hover:shadow-xl hover:shadow-accent/5">
+            <SpotlightCard className="h-full p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-accent/5">
               <div className="mb-4 flex items-center gap-2">
                 <span className="size-2 animate-pulse-dot rounded-full bg-accent" aria-hidden />
                 <p className="text-xs font-semibold uppercase tracking-widest text-accent">
@@ -170,14 +171,13 @@ export function About() {
                   </div>
                 </div>
               </div>
-            </div>
+            </SpotlightCard>
           </Reveal>
 
           {/* ── Location card ── */}
           <Reveal delay={0.1}>
-            <div className="relative h-full overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-accent-border/60 hover:shadow-xl hover:shadow-accent/5">
-              {/* Faint map pin glow */}
-              <div className="absolute -bottom-8 -right-8 size-32 rounded-full bg-cyan/10 blur-2xl" aria-hidden />
+            <SpotlightCard className="relative h-full p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-accent/5">
+              <div className="absolute -bottom-8 -right-8 size-32 rounded-full bg-cyan/15 blur-2xl" aria-hidden />
               <MapPin className="mb-3 size-6 text-cyan" aria-hidden />
               <p className="font-display text-lg font-bold text-foreground">{site.location}</p>
               <p className="mt-1 text-xs text-muted-foreground">Open to relocation &amp; remote</p>
@@ -185,19 +185,19 @@ export function About() {
                 Seeking
               </p>
               <p className="mt-1 text-sm text-foreground">{site.availability}</p>
-            </div>
+            </SpotlightCard>
           </Reveal>
 
           {/* ── Reading / BookOpen card ── */}
           <Reveal delay={0.12}>
-            <div className="h-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:border-accent-border/60 hover:shadow-xl hover:shadow-accent/5">
+            <SpotlightCard className="h-full p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-accent/5">
               <BookOpen className="mb-3 size-6 text-accent" aria-hidden />
               <p className="font-display text-lg font-bold text-foreground">VIT Bhopal</p>
               <p className="mt-1 text-xs text-muted-foreground">B.Tech · CSE · 2023 – 2027</p>
               <ul className="mt-4 space-y-1.5 text-xs text-muted-foreground">
                 <li className="flex items-center gap-2">
                   <span className="size-1.5 rounded-full bg-accent" aria-hidden />
-                  Core — Android Club & CISCO Community
+                  Core — Android Club &amp; CISCO Community
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="size-1.5 rounded-full bg-cyan" aria-hidden />
@@ -208,7 +208,7 @@ export function About() {
                   30+ merged open-source PRs
                 </li>
               </ul>
-            </div>
+            </SpotlightCard>
           </Reveal>
         </div>
       </div>
