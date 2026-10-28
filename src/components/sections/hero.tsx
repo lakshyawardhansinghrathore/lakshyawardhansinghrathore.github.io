@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, Download, Mail, Trophy, Zap } from "lucide-react";
+import { ArrowDown, Download, Mail, Trophy, Zap, Sparkles, Cpu, Layers, Terminal } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/brand-icons";
 import { buttonVariants } from "@/components/ui/button";
 import { site } from "@/content/site";
@@ -115,6 +115,14 @@ export function Hero() {
   const y = useTransform(scrollY, [0, 600], [0, 120]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
 
+  // Scroll parallax depths for floating tech badges
+  const yBadge1 = useTransform(scrollY, [0, 600], [0, -150]);
+  const yBadge2 = useTransform(scrollY, [0, 600], [0, -90]);
+  const yBadge3 = useTransform(scrollY, [0, 600], [0, 130]);
+  const yBadge4 = useTransform(scrollY, [0, 600], [0, 80]);
+  const rot1 = useTransform(scrollY, [0, 600], [-4, 10]);
+  const rot2 = useTransform(scrollY, [0, 600], [4, -8]);
+
   return (
     <section
       id="home"
@@ -136,6 +144,59 @@ export function Hero() {
         aria-hidden
         className="bg-grid pointer-events-none absolute inset-0 opacity-30 dark:opacity-20"
       />
+
+      {/* ── Floating Parallax Tech Badges (Visible on larger screens) ── */}
+      <motion.div
+        style={{ y: yBadge1, rotate: rot1 }}
+        className="pointer-events-none absolute left-8 top-1/3 hidden lg:flex items-center gap-2 rounded-2xl border border-accent-border/50 bg-card/70 px-4 py-2.5 shadow-xl shadow-accent/10 backdrop-blur-md"
+      >
+        <span className="flex size-7 items-center justify-center rounded-xl bg-accent-soft text-accent">
+          <Sparkles className="size-4" />
+        </span>
+        <div className="text-left font-mono text-xs">
+          <p className="font-semibold text-foreground">PyTorch &amp; GenAI</p>
+          <p className="text-[10px] text-muted-foreground">Deep Learning</p>
+        </div>
+      </motion.div>
+
+      <motion.div
+        style={{ y: yBadge2, rotate: rot2 }}
+        className="pointer-events-none absolute right-8 top-1/4 hidden lg:flex items-center gap-2 rounded-2xl border border-cyan/40 bg-card/70 px-4 py-2.5 shadow-xl shadow-cyan/10 backdrop-blur-md"
+      >
+        <span className="flex size-7 items-center justify-center rounded-xl bg-cyan-soft text-cyan">
+          <Cpu className="size-4" />
+        </span>
+        <div className="text-left font-mono text-xs">
+          <p className="font-semibold text-foreground">Java &amp; DSA</p>
+          <p className="text-[10px] text-muted-foreground">500+ Solved</p>
+        </div>
+      </motion.div>
+
+      <motion.div
+        style={{ y: yBadge3 }}
+        className="pointer-events-none absolute left-14 bottom-1/4 hidden xl:flex items-center gap-2 rounded-2xl border border-border/70 bg-card/70 px-4 py-2.5 shadow-xl backdrop-blur-md"
+      >
+        <span className="flex size-7 items-center justify-center rounded-xl bg-muted text-foreground">
+          <Layers className="size-4" />
+        </span>
+        <div className="text-left font-mono text-xs">
+          <p className="font-semibold text-foreground">Next.js 16 + PostgreSQL</p>
+          <p className="text-[10px] text-muted-foreground">Drizzle ORM</p>
+        </div>
+      </motion.div>
+
+      <motion.div
+        style={{ y: yBadge4 }}
+        className="pointer-events-none absolute right-14 bottom-1/3 hidden xl:flex items-center gap-2 rounded-2xl border border-border/70 bg-card/70 px-4 py-2.5 shadow-xl backdrop-blur-md"
+      >
+        <span className="flex size-7 items-center justify-center rounded-xl bg-accent-soft text-accent">
+          <Terminal className="size-4" />
+        </span>
+        <div className="text-left font-mono text-xs">
+          <p className="font-semibold text-foreground">VIT Bhopal</p>
+          <p className="text-[10px] text-muted-foreground">B.Tech CSE &apos;27</p>
+        </div>
+      </motion.div>
 
       {/* ── Fade to background at bottom ── */}
       <div
