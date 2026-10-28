@@ -1,0 +1,144 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/*
+ * Class-based dark mode. `.dark` is set on <html> by an inline script in
+ * layout.tsx (dark is the default theme) and toggled by the theme switcher.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Light theme — TODO: tweak palette to taste */
+  --background: oklch(0.988 0.002 250);
+  --foreground: oklch(0.155 0.006 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.155 0.006 260);
+  --muted: oklch(0.965 0.004 250);
+  --muted-foreground: oklch(0.5 0.015 260);
+  --border: oklch(0.915 0.005 250);
+  --input: oklch(0.915 0.005 250);
+  --ring: oklch(0.596 0.13 163);
+  --accent: oklch(0.596 0.13 163); /* emerald-600 */
+  --accent-foreground: oklch(0.985 0.01 163);
+  --accent-soft: oklch(0.955 0.045 163);
+  --accent-border: oklch(0.9 0.08 163);
+}
+
+.dark {
+  /* Dark theme (default) */
+  --background: oklch(0.143 0.005 285);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.179 0.006 285);
+  --card-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.215 0.007 285);
+  --muted-foreground: oklch(0.71 0.015 286);
+  --border: oklch(0.274 0.006 286);
+  --input: oklch(0.274 0.006 286);
+  --ring: oklch(0.696 0.17 162);
+  --accent: oklch(0.696 0.17 162); /* emerald-500 */
+  --accent-foreground: oklch(0.985 0.01 163);
+  --accent-soft: oklch(0.235 0.055 163);
+  --accent-border: oklch(0.33 0.07 163);
+}
+
+/* Map CSS variables into Tailwind's theme so utilities like bg-background exist */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-border: var(--accent-border);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Offset anchor jumps so the fixed header never covers section headings */
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  /* Subtle themed scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 8px;
+    border: 2px solid var(--background);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
+
+  /* Visible focus rings for keyboard users only */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+/* ---- Custom animations (kept dependency-free) ---- */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.animate-blink {
+  animation: blink 1.1s step-end infinite;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.696 0.17 162 / 0.55); }
+  70% { box-shadow: 0 0 0 7px oklch(0.696 0.17 162 / 0); }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 2.2s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-float-slow,
+  .animate-pulse-dot {
+    animation: none;
+  }
+}
