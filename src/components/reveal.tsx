@@ -10,22 +10,62 @@ interface RevealProps {
   delay?: number;
   /** vertical offset in px */
   y?: number;
+  /** horizontal offset in px */
+  x?: number;
+  /** scale entry */
+  scale?: number;
+  /** perspective depth effect */
+  perspective3D?: boolean;
 }
 
 /**
- * Scroll-triggered reveal: fades/slides content in once when it enters the
- * viewport. Respects prefers-reduced-motion by fading only.
+ * Award-winning scroll-triggered reveal:
+ * - Subtle 3D perspective fold-in (rotateX)
+ * - Cinematic unblur filter
+ * - Scale & smooth cubic bezier easing
+ * - Respects prefers-reduced-motion
  */
-export function Reveal({ children, className, delay = 0, y = 24 }: RevealProps) {
+export function Reveal({
+  children,
+  className,
+  delay = 0,
+  y = 35,
+  x = 0,
+  scale = 0.96,
+  perspective3D = true,
+}: RevealProps) {
   const reduce = useReducedMotion();
+
+  if (reduce) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: reduce ? 0 : y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.55, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+      style={perspective3D ? { perspective: 1200 } : undefined}
+      initial={{
+        opacity: 0,
+        y,
+        x,
+        scale,
+        rotateX: perspective3D ? 8 : 0,
+        filter: "blur(6px)",
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+        x: 0,
+        scale: 1,
+        rotateX: 0,
+        filter: "blur(0px)",
+      }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{
+        duration: 0.75,
+        delay,
+        ease: [0.16, 1, 0.3, 1], // cinematic Apple/Linear curve
+      }}
     >
       {children}
     </motion.div>
