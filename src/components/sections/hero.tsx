@@ -1,19 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowDown, Download, Mail, Trophy } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { ArrowDown, Download, Mail, Trophy, Zap } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/brand-icons";
-import { ParticleField } from "@/components/particle-field";
 import { buttonVariants } from "@/components/ui/button";
 import { site } from "@/content/site";
 import { cn } from "@/lib/utils";
 
-/* Rotating typed words in the hero subtitle */
+/* ── Rotating typed words ──────────────────────────────────── */
 const TYPED_WORDS = [
-  "web platforms.",
-  "developer tools.",
-  "real-time systems.",
+  "AI-powered products.",
+  "real-time platforms.",
+  "developer tooling.",
   "open-source software.",
 ];
 
@@ -26,9 +25,9 @@ function TypedWords() {
   useEffect(() => {
     if (reduce) return;
     const word = TYPED_WORDS[index];
-    let delay = deleting ? 38 : 68;
-    if (!deleting && sub === word.length) delay = 1800; // hold the full word
-    if (deleting && sub === 0) delay = 350;
+    let delay = deleting ? 36 : 62;
+    if (!deleting && sub === word.length) delay = 2000;
+    if (deleting && sub === 0) delay = 320;
     const t = setTimeout(() => {
       if (!deleting) {
         if (sub < word.length) setSub(sub + 1);
@@ -48,13 +47,55 @@ function TypedWords() {
   const shown = reduce ? TYPED_WORDS[0] : word.slice(0, sub);
 
   return (
-    <span className="font-mono text-accent">
+    <span className="text-gradient animate-gradient font-display">
       {shown}
-      <span className="ml-0.5 inline-block h-[1em] w-[8px] translate-y-[3px] animate-blink bg-accent" aria-hidden />
+      <span
+        className="ml-0.5 inline-block h-[1em] w-[3px] translate-y-[3px] animate-blink rounded-sm bg-accent"
+        aria-hidden
+      />
     </span>
   );
 }
 
+/* ── Animated counter ──────────────────────────────────────── */
+function AnimatedCounter({ to, suffix = "" }: { to: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          const duration = 1400;
+          const start = performance.now();
+          const tick = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.round(eased * to));
+            if (progress < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.5 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [to]);
+
+  return (
+    <span ref={ref} className="tabular-nums">
+      {count}
+      {suffix}
+    </span>
+  );
+}
+
+/* ── Socials ───────────────────────────────────────────────── */
 const SOCIALS = [
   { label: "GitHub", href: site.social.github, icon: GithubIcon },
   { label: "LinkedIn", href: site.social.linkedin, icon: LinkedinIcon },
@@ -62,60 +103,92 @@ const SOCIALS = [
   { label: "Email", href: `mailto:${site.email}`, icon: Mail },
 ];
 
+const STATS = [
+  { label: "LeetCode solved", value: 500, suffix: "+" },
+  { label: "CGPA", value: 9.02, suffix: "" },
+  { label: "Open-source PRs", value: 30, suffix: "+" },
+];
+
+/* ── Hero ──────────────────────────────────────────────────── */
 export function Hero() {
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 600], [0, 120]);
+  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
+
   return (
     <section
       id="home"
       className="relative flex min-h-screen items-center justify-center overflow-hidden"
       aria-label="Introduction"
     >
-      {/* Animated particle background + soft gradient glows */}
-      <ParticleField className="absolute inset-0 h-full w-full" />
+      {/* ── Aurora gradient orbs ── */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Primary orb — violet */}
+        <div className="animate-aurora absolute -top-40 left-1/4 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-accent/20 blur-[100px]" />
+        {/* Secondary orb — cyan */}
+        <div className="animate-aurora-delay absolute -top-20 right-1/4 h-[500px] w-[500px] translate-x-1/2 rounded-full bg-cyan/15 blur-[100px]" />
+        {/* Bottom glow */}
+        <div className="animate-aurora-slow absolute bottom-0 left-1/2 h-[400px] w-[900px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]" />
+      </div>
+
+      {/* ── Grid pattern overlay ── */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-32 left-1/2 h-[480px] w-[720px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-background to-transparent"
+        className="bg-grid pointer-events-none absolute inset-0 opacity-30 dark:opacity-20"
       />
 
-      <div className="relative mx-auto max-w-4xl px-4 pb-24 pt-32 text-center sm:px-6">
+      {/* ── Fade to background at bottom ── */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background to-transparent"
+      />
+
+      {/* ── Content ── */}
+      <motion.div
+        style={{ y, opacity }}
+        className="relative mx-auto max-w-5xl px-4 pb-28 pt-36 text-center sm:px-6"
+      >
         {/* Availability badge */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-accent-border/50 bg-accent-soft/60 px-4 py-1.5 text-xs font-medium text-accent backdrop-blur"
+          className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-accent-border/60 bg-accent-soft/70 px-5 py-2 text-xs font-semibold uppercase tracking-widest text-accent backdrop-blur"
         >
           <span className="size-2 animate-pulse-dot rounded-full bg-accent" aria-hidden />
           {site.availability}
         </motion.div>
 
+        {/* Giant heading */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.08 }}
-          className="font-display text-5xl font-bold tracking-tight text-foreground sm:text-6xl md:text-7xl"
+          transition={{ duration: 0.65, delay: 0.08 }}
+          className="font-display text-5xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl"
         >
-          {site.name}
+          <span className="text-foreground">{site.name.split(" ")[0]} </span>
+          <span className="text-gradient animate-gradient">
+            {site.name.split(" ").slice(1).join(" ")}
+          </span>
         </motion.h1>
 
+        {/* Subtitle with typed words */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.16 }}
-          className="mt-5 text-lg text-muted-foreground sm:text-xl"
+          transition={{ duration: 0.55, delay: 0.18 }}
+          className="mt-6 text-xl font-medium text-muted-foreground sm:text-2xl"
         >
-          <span className="text-foreground">I build </span>
+          I build{" "}
           <TypedWords />
         </motion.p>
 
+        {/* Role / tagline */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.24 }}
-          className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base"
+          transition={{ duration: 0.55, delay: 0.26 }}
+          className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base"
         >
           {site.tagline}
         </motion.p>
@@ -124,10 +197,17 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.32 }}
-          className="mt-9 flex flex-wrap items-center justify-center gap-3"
+          transition={{ duration: 0.55, delay: 0.34 }}
+          className="mt-10 flex flex-wrap items-center justify-center gap-3"
         >
-          <a href="#projects" className={cn(buttonVariants({ size: "lg" }))}>
+          <a
+            href="#projects"
+            className={cn(
+              buttonVariants({ size: "lg" }),
+              "glow-accent-sm relative overflow-hidden bg-accent font-semibold text-accent-foreground transition-all duration-300 hover:scale-[1.03] hover:glow-accent",
+            )}
+          >
+            <span className="animate-shimmer absolute inset-0" aria-hidden />
             View projects <ArrowDown className="size-4" aria-hidden />
           </a>
           <a
@@ -135,18 +215,21 @@ export function Hero() {
             target={site.resumeUrl.startsWith("http") ? "_blank" : undefined}
             rel={site.resumeUrl.startsWith("http") ? "noopener noreferrer" : undefined}
             download={site.resumeUrl.endsWith(".pdf") ? true : undefined}
-            className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+            className={cn(
+              buttonVariants({ variant: "outline", size: "lg" }),
+              "border-accent-border/50 font-semibold hover:border-accent/70 hover:bg-accent-soft",
+            )}
           >
             Resume <Download className="size-4" aria-hidden />
           </a>
         </motion.div>
 
-        {/* Socials */}
+        {/* Social icons */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.45 }}
-          className="mt-9 flex items-center justify-center gap-2"
+          transition={{ duration: 0.6, delay: 0.48 }}
+          className="mt-8 flex items-center justify-center gap-3"
         >
           {SOCIALS.map(({ label, href, icon: Icon }) => (
             <a
@@ -155,24 +238,47 @@ export function Hero() {
               target={href.startsWith("http") ? "_blank" : undefined}
               rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
               aria-label={label}
-              className="flex size-10 items-center justify-center rounded-lg border border-border text-muted-foreground transition-all hover:border-accent-border hover:text-accent"
+              className="group flex size-11 items-center justify-center rounded-xl border border-border bg-card/60 text-muted-foreground backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-accent-border/70 hover:bg-accent-soft hover:text-accent hover:shadow-lg hover:shadow-accent/20"
             >
               <Icon className="size-[18px]" />
             </a>
           ))}
         </motion.div>
-      </div>
 
-      {/* Scroll indicator */}
+        {/* Animated stats row */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.62 }}
+          className="mt-14 grid grid-cols-3 divide-x divide-border overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur"
+        >
+          {STATS.map(({ label, value, suffix }) => (
+            <div key={label} className="flex flex-col items-center px-4 py-5">
+              <span className="text-gradient font-display text-3xl font-bold sm:text-4xl">
+                {Number.isInteger(value) ? (
+                  <AnimatedCounter to={value} suffix={suffix} />
+                ) : (
+                  `${value}${suffix}`
+                )}
+              </span>
+              <span className="mt-1 text-center text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
+                {label}
+              </span>
+            </div>
+          ))}
+        </motion.div>
+      </motion.div>
+
+      {/* ── Scroll indicator ── */}
       <motion.a
         href="#about"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.1, duration: 0.8 }}
-        className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground transition-colors hover:text-accent sm:flex"
+        transition={{ delay: 1.2, duration: 0.8 }}
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground transition-colors hover:text-accent sm:flex"
         aria-label="Scroll to about section"
       >
-        <span className="font-mono text-[10px] uppercase tracking-widest">scroll</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em]">scroll</span>
         <span className="flex h-9 w-5 items-start justify-center rounded-full border border-current p-1.5">
           <motion.span
             className="size-1 rounded-full bg-current"
@@ -180,6 +286,7 @@ export function Hero() {
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
           />
         </span>
+        <Zap className="size-3 opacity-40" aria-hidden />
       </motion.a>
     </section>
   );
