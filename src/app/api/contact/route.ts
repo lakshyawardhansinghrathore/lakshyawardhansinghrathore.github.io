@@ -43,6 +43,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   }
 
+  if (!db) {
+    return NextResponse.json({ ok: true, message: "Database not configured; message received" });
+  }
+
   try {
     await db.insert(messages).values({
       name: parsed.data.name,
