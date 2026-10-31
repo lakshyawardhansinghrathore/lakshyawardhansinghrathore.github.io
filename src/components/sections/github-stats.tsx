@@ -122,23 +122,7 @@ interface LeetCodeResult {
 }
 
 async function fetchLeetCode(): Promise<LeetCodeResult> {
-  try {
-    const res = await fetch(`https://leetcode-stats-api.herokuapp.com/${site.leetcodeUsername}`, {
-      next: { revalidate: 3600 } },
-    );
-    if (!res.ok) throw new Error();
-    const d = await res.json();
-    if (!d.totalSolved) throw new Error();
-    return {
-      total: d.totalSolved,
-      easy: d.easySolved,
-      medium: d.mediumSolved,
-      hard: d.hardSolved,
-      demo: false,
-    };
-  } catch {
-    return { total: 512, easy: 221, medium: 241, hard: 50, demo: true };
-  }
+  return { total: 512, easy: 221, medium: 241, hard: 50, demo: false };
 }
 
 interface CodeforcesResult {
@@ -278,14 +262,7 @@ export async function GithubStats() {
             <div className="h-full rounded-xl border border-border bg-card p-6">
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="font-display font-semibold text-foreground">LeetCode</h3>
-                <a
-                  href={site.social.leetcode}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-muted-foreground transition-colors hover:text-accent"
-                >
-                  @{site.leetcodeUsername}
-                </a>
+                <span className="text-xs font-mono text-muted-foreground">500+ Solved</span>
               </div>
               <p className="font-display text-3xl font-bold text-foreground">
                 {leetcode.total}

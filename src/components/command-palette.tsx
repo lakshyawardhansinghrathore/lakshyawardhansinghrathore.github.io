@@ -125,7 +125,6 @@ function buildItems(
   const links: { label: string; url: string; icon: IconType; keywords: string }[] = [
     { label: "GitHub profile", url: site.social.github, icon: GithubIcon, keywords: "code repos" },
     { label: "LinkedIn profile", url: site.social.linkedin, icon: LinkedinIcon, keywords: "professional" },
-    { label: "LeetCode profile", url: site.social.leetcode, icon: Trophy, keywords: "dsa problems" },
     { label: "Codeforces profile", url: site.social.codeforces, icon: CodeforcesIcon, keywords: "competitive programming cp" },
   ];
   for (const l of links) {
