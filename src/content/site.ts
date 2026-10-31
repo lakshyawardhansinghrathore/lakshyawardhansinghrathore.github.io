@@ -21,11 +21,13 @@ export const site = {
 
   // Used by the live GitHub stats section (src/components/sections/github-stats.tsx).
   githubUsername: "lakshyawardhansinghrathore",
+  leetcodeUsername: "Lakshyawardhan77",
   codeforcesHandle: "Its_Me.",
 
   social: {
     github: "https://github.com/lakshyawardhansinghrathore",
     linkedin: "https://www.linkedin.com/in/lakshyawardhan-singh-rathore-1082513b0/",
+    leetcode: "https://leetcode.com/u/Lakshyawardhan77/",
     codeforces: "https://codeforces.com/profile/Its_Me.",
   },
 

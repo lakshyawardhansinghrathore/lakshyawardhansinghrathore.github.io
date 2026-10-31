@@ -144,13 +144,9 @@ function runCommand(raw: string): Line[] {
       window.open(site.social.github, "_blank", "noopener,noreferrer");
       return [{ text: `opening ${site.social.github} …`, type: "ok" }];
 
-    case "dsa":
     case "leetcode":
-      return [
-        { text: "Problem Solving & DSA:", type: "accent" },
-        { text: "  500+ problems solved across competitive platforms and DSA topics.", type: "out" },
-        { text: "  Focus: Graphs, DP, Trees, Greedy, Data Structures & Algorithms.", type: "dim" },
-      ];
+      window.open(site.social.leetcode, "_blank", "noopener,noreferrer");
+      return [{ text: "opening leetcode profile…", type: "ok" }];
 
     case "codeforces":
       window.open(site.social.codeforces, "_blank", "noopener,noreferrer");

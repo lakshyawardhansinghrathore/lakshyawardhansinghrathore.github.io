@@ -99,7 +99,7 @@ function AnimatedCounter({ to, suffix = "" }: { to: number; suffix?: string }) {
 const SOCIALS = [
   { label: "GitHub", href: site.social.github, icon: GithubIcon },
   { label: "LinkedIn", href: site.social.linkedin, icon: LinkedinIcon },
-  { label: "Codeforces", href: site.social.codeforces, icon: Trophy },
+  { label: "LeetCode", href: site.social.leetcode, icon: Trophy },
   { label: "Email", href: `mailto:${site.email}`, icon: Mail },
 ];
 
