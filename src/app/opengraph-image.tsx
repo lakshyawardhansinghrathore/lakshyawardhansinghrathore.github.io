@@ -18,9 +18,9 @@ export default function OpenGraphImage() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "80px",
-          backgroundColor: "#0a0a0c",
+          backgroundColor: "#090b10",
           backgroundImage:
-            "radial-gradient(circle at 85% 15%, rgba(16,185,129,0.18) 0%, transparent 45%), radial-gradient(circle at 10% 90%, rgba(16,185,129,0.10) 0%, transparent 40%)",
+            "radial-gradient(circle at 85% 15%, rgba(112,133,235,0.18) 0%, transparent 45%), radial-gradient(circle at 10% 90%, rgba(112,133,235,0.10) 0%, transparent 40%)",
           fontFamily: "sans-serif",
         }}
       >
@@ -31,7 +31,7 @@ export default function OpenGraphImage() {
             width: 72,
             height: 6,
             borderRadius: 3,
-            backgroundColor: "#10b981",
+            backgroundColor: "#98b8ff",
             marginBottom: 36,
           }}
         />
@@ -39,12 +39,12 @@ export default function OpenGraphImage() {
           style={{
             display: "flex",
             fontSize: 24,
-            color: "#34d399",
+            color: "#abbaff",
             letterSpacing: 2,
             marginBottom: 12,
           }}
         >
-          {site.education.school.toUpperCase()} · CSE &apos;26
+          {site.education.school.toUpperCase()} · CSE &apos;27
         </div>
         <div
           style={{
@@ -73,10 +73,10 @@ export default function OpenGraphImage() {
             display: "flex",
             marginTop: "auto",
             fontSize: 22,
-            color: "#10b981",
+            color: "#98b8ff",
           }}
         >
-          {site.siteUrl.replace(/^https?:\/\//, "")} · full-stack · systems · open source
+          {site.siteUrl.replace(/^https?:\/\//, "")} · machine learning · generative AI
         </div>
       </div>
     ),
