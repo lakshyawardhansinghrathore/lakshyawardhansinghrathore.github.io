@@ -1,0 +1,106 @@
+@media screen {
+.chapters {--copper:#d5a478;--vellum:#e9e3d7;--rule:#736857}
+.chapters .editorial {padding-block:clamp(74px,10vw,180px);background:linear-gradient(148deg,#d8cfbf,#eee8dc 55%,#e2dacb);align-items:start;isolation:isolate}
+.about-anchor {position:relative;align-self:start}
+.chapters .editorial h2 {max-width:none;font-size:clamp(3.1rem,5.7vw,6.5rem)}
+.about-anchor h2 em {font-weight:400;color:#75553b}
+.about-relief {display:block;width:min(77%,360px);height:auto;margin-top:16px;fill:none;stroke:#94724f;stroke-width:1.2}
+.chapters .about-reading {align-self:center;border-left:1px solid #a89b87;padding-left:clamp(21px,3.6vw,62px)}
+.chapters .about-reading .lead {font:400 clamp(1.9rem,3.45vw,4rem)/1.06 var(--serif);letter-spacing:-.055em;max-width:none;margin-bottom:32px}
+.reading-line {position:relative;display:block}
+.reading-line i {position:absolute;inset:0;font:inherit;color:#22221d}
+.reading-line>span {color:#786f63}
+.chapters #projects {padding-bottom:0}
+.chapters .work-heading h2 {font-size:clamp(3.3rem,6.6vw,8rem)}
+.project-deck {isolation:isolate;position:relative;margin-inline:calc(-1 * var(--gutter))}
+.shot-anchor {height:0;scroll-margin-top:64px}
+.chapters .project-cover {position:relative;display:grid;align-items:center;padding:clamp(26px,4vw,72px) var(--gutter);min-height:clamp(540px,calc(100svh - 65px),1000px);border:0;border-top:1px solid #827662;box-shadow:0 -12px 38px #100e0b30;perspective:1300px}
+.project-cover.resupulse {background:radial-gradient(ellipse at 79% 32%,#6a5846,#372f29 48%,#252320 84%)}
+.project-cover.finsight {background:radial-gradient(ellipse at 79% 38%,#ddd2bc,#c0b199 65%,#baa991);color:#302a22}
+.project-cover.attendo {background:radial-gradient(ellipse at 78% 26%,#525955,#2c302e 48%,#1a201e)}
+.chapters .cover-copy {padding:0;position:relative;max-width:48%}
+.chapters .cover-copy h3 {font-size:clamp(5rem,9.7vw,11.2rem);letter-spacing:-.078em}
+.chapters .cover-copy .eyebrow {margin-bottom:22px}
+.chapters .cover-copy > p:not(.eyebrow) {max-width:37ch;font-size:clamp(1rem,1.32vw,1.25rem)}
+.chapters .cover-art {inset:-10% -6% 2% 39%;pointer-events:none}
+.chapters .cover-art img {transition:filter .35s ease}
+.chapters .project-cover:focus-within .cover-art img,.chapters .project-cover:hover .cover-art img {filter:contrast(1.08)}
+.shot-result {position:absolute;bottom:clamp(20px,4.3vh,48px);right:var(--gutter);display:flex;align-items:baseline;gap:17px;max-width:48%;border-top:1px solid #ac998470;padding-top:12px}
+.shot-result strong {white-space:nowrap;font:italic 400 clamp(2rem,3.2vw,3.8rem)/1 var(--serif);letter-spacing:-.055em}
+.shot-result span {color:inherit;font-size:.88rem;max-width:23ch;line-height:1.35}
+.chapters .finsight .cover-copy :is(.eyebrow,p,a),.chapters .finsight .shot-result {color:#352b20}
+.chapters .finsight .project-links a {border-color:#716453}
+.chapters .project-links a:hover {text-decoration:underline;text-underline-offset:5px}
+.chapters .work-stories {padding-top:clamp(52px,8vw,135px)}
+.detail-heading {grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:end;gap:4px 12px;border-bottom:1px solid var(--line);padding-bottom:15px}
+.detail-heading .eyebrow {grid-column:1/-1;margin:0}
+.detail-heading h3 {font:400 clamp(2.7rem,4.8vw,5.3rem)/1 var(--serif)}
+.detail-heading a {font-size:.87rem;min-height:44px;align-content:center}
+.chapters #skills {margin-top:clamp(44px,8vw,110px);border-block:1px solid var(--line);background:radial-gradient(ellipse at 5% 48%,#42372a66,transparent 50%)}
+.signal-figure figcaption {font:.74rem/1.5 var(--mono);color:var(--muted);padding-inline-start:12px}
+.skill-signal {width:100%;max-width:540px;display:block;margin:16px 0;color:#eac49e}
+.skill-signal path {fill:none;stroke:currentColor;stroke-width:.95}
+.skill-signal circle,.skill-signal text {fill:currentColor}
+.skill-signal text {font:12px var(--mono)}
+.skill-signal g[data-selected] {transition:opacity .28s ease}
+.skill-signal g[data-selected=false] {opacity:.14}
+.chapters .skill-filters {align-content:start;gap:6px}
+.chapters .skill-filters button {border-radius:0;border-bottom:1px solid var(--line)}
+.chapters #skills .skills-grid article {padding-block:20px}
+.chapters #experience {display:grid;grid-template-columns:.85fr 1.7fr;gap:8%}
+.chapters #experience h2 {position:sticky;top:110px;height:fit-content;font-size:clamp(3rem,5.1vw,6rem)}
+.resume .career-rail {display:none}
+.career-track {position:relative}
+.career-rail {position:absolute;inset:5px auto 12px 0;width:1px;background:#5c5347}
+.career-rail i {display:block;height:100%;background:#f1c49a;transform-origin:top;position:relative}
+.career-rail i::after {content:"";position:absolute;bottom:0;left:-3px;width:7px;height:7px;background:#edbf93;transform:rotate(45deg)}
+.chapters #experience .timeline-item {display:block;border:0;padding:0 0 48px 32px}
+.chapters #experience .timeline-item:last-child {padding-bottom:6px}
+.chapters #experience .timeline-item::after {display:none}
+.chapters #experience .timeline-item h3 {font-size:1.3rem}
+.chapters #experience .timeline-item>div:first-child h3 {font:400 clamp(1.9rem,3vw,3.6rem)/1.09 var(--serif);letter-spacing:-.055em;margin-bottom:14px}
+.chapters #certifications,.chapters #development {display:grid;grid-template-columns:.85fr 1.7fr;gap:15px 8%;align-items:start}
+.chapters #certifications h2 {margin:0}
+.chapters #certifications .credentials {grid-template-columns:1fr;gap:0}
+.chapters .credential {padding-block:23px;border-bottom:0}
+.chapters #development>.eyebrow {grid-column:1}
+.chapters #development h2 {grid-column:1;grid-row:2/5}
+.chapters #development>:is(.repo-list,.text-link,.activity-chart) {grid-column:2}
+.chapters .contact-panel {min-height:min(870px,95svh);color:#31291f;background:#ddd3bf;isolation:isolate}
+.chapters .contact-panel::after {display:none}
+.closing-optic {position:absolute;inset:-18% -26% -17% 37%;z-index:-1;background:url('/cinema/aperture.webp') center/contain no-repeat;pointer-events:none;mask-image:linear-gradient(90deg,transparent,#000 42%);mix-blend-mode:multiply}
+.chapters .contact-panel .eyebrow {color:#69492d}
+.chapters .contact-panel h2 {max-width:none;font:400 clamp(3.7rem,7.2vw,8.6rem)/.97 var(--serif);letter-spacing:-.072em}
+.closing-line {display:block;overflow:hidden;padding-bottom:.09em;margin-bottom:-.09em}
+.closing-line>span {display:block}
+.chapters .contact-panel h2 em {font-size:.44em;letter-spacing:-.045em;color:#69492d;line-height:1.15;margin-top:.6em}
+.chapters .contact-panel .portfolio-button {background:#292720;color:#fff3de;border-color:#292720}
+.chapters .contact-panel .secondary {background:#e7decb;color:#302c23;border-color:#807463}
+.chapters .contact-panel .social-row a {color:#372c21;text-underline-offset:4px}
+.chapters .contact-panel a:hover {text-decoration:underline}
+@media(min-width:850px) and (min-height:620px) {.about-anchor {position:sticky;top:100px}}
+@media(max-width:849px) {
+.chapters #experience,.chapters #certifications,.chapters #development {display:block}
+.chapters #experience h2 {position:static}
+.chapters #certifications h2 {margin-bottom:22px}
+.skill-signal {max-width:390px}
+.chapters .detail-heading {order:-4}
+}
+@media(max-width:740px) {
+.chapters .editorial {display:block}
+.about-relief {display:none}
+.chapters .about-reading {margin-top:32px}
+.chapters .project-cover {display:flex;align-items:stretch;min-height:0;padding:18px var(--gutter) 30px}
+.chapters .cover-copy {max-width:none}
+.chapters .cover-copy h3 {font-size:clamp(3.8rem,13vw,6rem)}
+.chapters .cover-copy .eyebrow {margin-bottom:8px}
+.chapters .cover-art {position:relative;inset:auto;height:clamp(150px,46vw,270px)}
+.shot-result {position:static;max-width:100%;align-self:stretch;margin-top:18px;align-items:center}
+.chapters .project-links {gap:8px 15px}
+.chapters .contact-panel h2 {font-size:clamp(3.1rem,10vw,5rem)}
+.chapters .contact-panel {min-height:540px}
+.closing-optic {inset:18% -62% -38% 24%;opacity:.45}
+.chapters .contact-panel .social-row {gap:8px 17px}
+}
+@media(prefers-reduced-motion:reduce) {.about-anchor,.chapters #experience h2 {position:static}}
+}
