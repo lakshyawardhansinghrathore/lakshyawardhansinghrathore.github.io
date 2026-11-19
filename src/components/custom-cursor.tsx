@@ -32,9 +32,8 @@ export function CustomCursor() {
     const isFinePointer = window.matchMedia("(pointer: fine) and (hover: hover)").matches;
     if (!isFinePointer) return;
 
-    setEnabled(true);
-
     const onMouseMove = (e: MouseEvent) => {
+      setEnabled(true);
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
     };

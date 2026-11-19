@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -8,16 +8,20 @@ import { Button } from "@/components/ui/button";
  * Theme switcher. Dark is the default (set by the inline script in layout.tsx);
  * this toggle flips the `.dark` class on <html> and persists the choice.
  */
-export function ThemeToggle() {
-  const [isDark, setIsDark] = useState(true);
+function readTheme() { return document.documentElement.classList.contains("dark"); }
 
-  useEffect(() => {
-    setIsDark(document.documentElement.classList.contains("dark"));
-  }, []);
+function observeTheme(update: () => void) {
+  const observer = new MutationObserver(update);
+  observer.observe(document.documentElement, {attributes: true, attributeFilter: ["class"]});
+  return () => observer.disconnect();
+}
+
+export function ThemeToggle() {
+  const isDark = useSyncExternalStore(observeTheme, readTheme, () => true);
 
   function toggle() {
     const next = !isDark;
-    setIsDark(next);
+
     document.documentElement.classList.toggle("dark", next);
     try {
       localStorage.setItem("theme", next ? "dark" : "light");

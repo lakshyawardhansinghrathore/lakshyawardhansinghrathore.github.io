@@ -261,11 +261,14 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
   const listRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const close = useCallback(() => {
-    setOpen(false);
+  const changeOpen = useCallback((next: boolean) => {
+    setOpen(next);
+    setActiveIndex(0);
     setQuery("");
     setNote(null);
   }, []);
+
+  const close = useCallback(() => changeOpen(false), [changeOpen]);
 
   const items = useMemo(() => buildItems(router, close, (m) => setNote(m)), [router, close]);
 
@@ -282,19 +285,16 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setOpen((o) => !o);
+        changeOpen(!open);
       }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, []);
+  }, [open, changeOpen]);
 
   /* Reset state + focus input whenever the palette opens */
   useEffect(() => {
     if (open) {
-      setQuery("");
-      setActiveIndex(0);
-      setNote(null);
       requestAnimationFrame(() => inputRef.current?.focus());
       document.body.style.overflow = "hidden";
     } else {
@@ -341,7 +341,7 @@ export function CommandPaletteProvider({ children }: { children: ReactNode }) {
   let flatIndex = -1;
 
   return (
-    <CommandPaletteContext.Provider value={{ open, setOpen }}>
+    <CommandPaletteContext.Provider value={{ open, setOpen: changeOpen }}>
       {children}
       <AnimatePresence>
         {open && (
