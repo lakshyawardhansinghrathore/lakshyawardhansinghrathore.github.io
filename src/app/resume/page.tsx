@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import { site, codingProfiles } from "@/content/portfolio";
-import { projects } from "@/content/projects";
-import { Experience } from "@/components/sections/experience";
-import { Skills } from "@/components/sections/skills";
-import { Certifications } from "@/components/sections/certifications";
-import { PrintResume } from "@/components/print-resume";
+import { site } from "@/content/portfolio";
 
 export const metadata: Metadata = { title: "Résumé" };
 
@@ -12,30 +7,14 @@ export default function ResumePage() {
   return (
     <article className="portfolio-container case-study resume">
       <div className="resume-header">
-        <div>
-          <h1>{site.name}</h1>
-          <p className="hero-role">{site.role}</p>
-        </div>
-        <PrintResume />
+        <h1>{site.name} — Résumé</h1>
+        <a className="portfolio-button primary" href={site.resumeUrl} download>Download résumé</a>
       </div>
-      <p className="intro">{site.tagline}</p>
-      <a className="text-link" href={`mailto:${site.email}`}>{site.email}</a>
-      <nav className="social-row" aria-label="Coding profiles">{codingProfiles.map(profile => <a href={profile.url} key={profile.label}>{profile.label}</a>)}</nav>
-      <section className="portfolio-section">
-        <h2>Projects</h2>
-        <div className="resume-projects">
-          {projects.map((project) => (
-            <section key={project.slug}>
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
-              <ul>{project.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul>
-            </section>
-          ))}
-        </div>
-      </section>
-      <Experience />
-      <Certifications />
-      <Skills />
+      <p><a className="text-link" href={site.resumeUrl}>Open full PDF</a></p>
+      <object aria-label="Résumé PDF" data={site.resumeUrl} type="application/pdf"
+        style={{ width: "100%", height: "80vh", marginTop: "1rem" }}>
+        <a href={site.resumeUrl}>View résumé PDF</a>
+      </object>
     </article>
   );
 }
